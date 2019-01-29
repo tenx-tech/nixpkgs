@@ -18,7 +18,7 @@ let
     "8.7" = v20180709;
     "8.8" = v20181016;
   };
-  param = params."${coq.coq-version}";
+  param = params."${coq.coq-version}" or params."8.8";
 in
 
 stdenv.mkDerivation rec {
@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
   buildInputs = [ coq ] ++ (with coq.ocamlPackages; [ ocaml camlp5 findlib ]);
   propagatedBuildInputs = [ ssreflect equations ];
 
-  enableParallelBuilding = false;
+  buildFlags = [ "JOBS=$(NIX_BUILD_CORES)" ];
 
   installPhase = ''
     make -f Makefile.coq COQLIB=$out/lib/coq/${coq.coq-version}/ install

@@ -149,7 +149,7 @@ let
         homepage = http://zfsonlinux.org/;
         license = licenses.cddl;
         platforms = platforms.linux;
-        maintainers = with maintainers; [ jcumming wizeman wkennington fpletz globin ];
+        maintainers = with maintainers; [ jcumming wizeman fpletz globin ];
       };
     };
 in {
@@ -158,7 +158,7 @@ in {
   # to be adapted
   zfsStable = common {
     # comment/uncomment if breaking kernel versions are known
-    # incompatibleKernelVersion = "4.19";
+    incompatibleKernelVersion = "4.20";
 
     # this package should point to the latest release.
     version = "0.7.12";

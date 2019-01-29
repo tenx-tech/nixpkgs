@@ -22,8 +22,9 @@
 , pkgconfig , ncurses, xapian_1_2_22, gpgme, utillinux, fetchpatch, tzdata, icu, libffi
 , cmake, libssh2, openssl, mysql, darwin, git, perl, pcre, gecode_3, curl
 , msgpack, qt59, libsodium, snappy, libossp_uuid, lxc, libpcap, xorg, gtk2, buildRubyGem
-, cairo, re2, rake, gobject-introspection, gdk_pixbuf, zeromq, graphicsmagick, libcxx, file
-, libselinux ? null, libsepol ? null, libvirt
+, cairo, re2, rake, gobject-introspection, gdk_pixbuf, zeromq, czmq, graphicsmagick, libcxx
+, file, libvirt
+, libselinux ? null, libsepol ? null
 }@args:
 
 let
@@ -92,6 +93,10 @@ in
       installPath=$(cat $out/nix-support/gem-meta/install-path)
       sed -i $installPath/lib/dep-selector-libgecode.rb -e 's@VENDORED_GECODE_DIR =.*@VENDORED_GECODE_DIR = "${gecode_3}"@'
     '';
+  };
+
+  digest-sha3 = attrs: {
+    hardeningDisable = [ "format" ];
   };
 
   ethon = attrs: {
@@ -297,13 +302,21 @@ in
     buildInputs = [ rainbow_rake ];
   };
 
-  rbnacl = spec: {
-    postInstall = ''
-    sed -i $(cat $out/nix-support/gem-meta/install-path)/lib/rbnacl.rb -e "2a \
-    RBNACL_LIBSODIUM_GEM_LIB_PATH = '${libsodium.out}/lib/libsodium${stdenv.hostPlatform.extensions.sharedLibrary}'
-    "
-    '';
+  rbczmq = { ... }: {
+    buildInputs = [ zeromq czmq ];
+    buildFlags = [ "--with-system-libs" ];
   };
+
+  rbnacl = spec:
+    if lib.versionOlder spec.version "6.0.0" then {
+      postInstall = ''
+        sed -i $(cat $out/nix-support/gem-meta/install-path)/lib/rbnacl.rb -e "2a \
+        RBNACL_LIBSODIUM_GEM_LIB_PATH = '${libsodium.out}/lib/libsodium${stdenv.hostPlatform.extensions.sharedLibrary}'
+        "
+      '';
+    } else {
+      buildInputs = [ libsodium ];
+    };
 
   re2 = attrs: {
     buildInputs = [ re2 ];
@@ -350,6 +363,10 @@ in
         sed -i -e "s/-arch i386//" Rakefile ext/scrypt/Rakefile
       '';
     } else {};
+
+  semian = attrs: {
+    buildInputs = [ openssl ];
+  };
 
   sequel_pg = attrs: {
     buildInputs = [ postgresql ];

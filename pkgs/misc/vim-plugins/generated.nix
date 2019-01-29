@@ -158,6 +158,17 @@ let
     };
   };
 
+  bufexplorer = buildVimPluginFrom2Nix {
+    pname = "bufexplorer";
+    version = "2018-12-10";
+    src = fetchFromGitHub {
+      owner = "jlanzarotta";
+      repo = "bufexplorer";
+      rev = "be69e397e502803db7d7f0a0e0491282ab2197a5";
+      sha256 = "0brhbkj34yxyq5gvjkqakq0m9zwa981rv6ksca07qhw3nzpxhlkd";
+    };
+  };
+
   calendar-vim = buildVimPluginFrom2Nix {
     pname = "calendar-vim";
     version = "2018-11-02";
@@ -1604,6 +1615,16 @@ let
       repo = "supertab";
       rev = "40fe711e088e2ab346738233dd5adbb1be355172";
       sha256 = "0l5labq68kyprv63k1q35hz5ly0dd06mf2z202mccnix4mlxf0db";
+    };
+  };
+
+  sved = buildVimPluginFrom2Nix {
+    name = "sved-2019-01-25";
+    src = fetchFromGitHub {
+      owner = "peder2tm";
+      repo = "sved";
+      rev = "3362db72447e8ac812c7299c15ecfc9f41341713";
+      sha256 = "1r2nv069d6r2q6gbiz795x94mfjm9hnv05zka085hhq9a3yf1pgx";
     };
   };
 

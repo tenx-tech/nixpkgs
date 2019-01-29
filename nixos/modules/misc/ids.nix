@@ -306,7 +306,7 @@
       rslsync = 279;
       minio = 280;
       kanboard = 281;
-      pykms = 282;
+      # pykms = 282; # DynamicUser = true
       kodi = 283;
       restya-board = 284;
       mighttpd2 = 285;
@@ -338,7 +338,8 @@
       minetest = 311;
       rss2email = 312;
       cockroachdb = 313;
-      concourse = 314;
+      zoneminder = 314;
+      concourse = 315;
 
       # When adding a uid, make sure it doesn't match an existing gid. And don't use uids above 399!
 
@@ -605,7 +606,7 @@
       rslsync = 279;
       minio = 280;
       kanboard = 281;
-      pykms = 282;
+      # pykms = 282; # DynamicUser = true
       kodi = 283;
       restya-board = 284;
       mighttpd2 = 285;
@@ -637,7 +638,8 @@
       minetest = 311;
       rss2email = 312;
       cockroachdb = 313;
-      concourse = 314;
+      zoneminder = 314;
+      concourse = 315;
 
       # When adding a gid, make sure it doesn't match an existing
       # uid. Users and groups with the same name should have equal
