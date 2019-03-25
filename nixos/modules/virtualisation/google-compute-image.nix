@@ -9,6 +9,8 @@ let
       imports = [
         <nixpkgs/nixos/modules/virtualisation/google-compute-image.nix>
       ];
+      virtualisation.googleComputeImage.rootPartition.fsType = "${cfg.rootPartition.fsType}";
+      virtualisation.googleComputeImage.rootPartition.label = "${cfg.rootPartition.label}";
     }
   '';
 in
@@ -22,6 +24,46 @@ in
       default = 1536;
       description = ''
         Size of disk image. Unit is MB.
+      '';
+    };
+
+    virtualisation.googleComputeImage.rootPartition.contents = mkOption {
+      type = with types; listOf (submodule (
+        { config, ... }:
+        {
+          options = {
+            source = mkOption {
+              type = with types; either package str;
+              description = "Files to copy from";
+            };
+            target = mkOption {
+              type = with types; str;
+              description = "Destination to copy to";
+            };
+          };
+          config = {
+          inherit (config) source target;
+          };
+        }));
+      default = [];
+      description = ''
+        Extra contents to copy into the rootPartition
+      '';
+    };
+
+    virtualisation.googleComputeImage.rootPartition.fsType = mkOption {
+      type = with types; str;
+      default = "ext4";
+      description = ''
+        Filesystem type of the root partition
+      '';
+    };
+
+    virtualisation.googleComputeImage.rootPartition.label = mkOption {
+      type = with types; str;
+      default = "nixos";
+      description = ''
+        Label of the root partition
       '';
     };
 
@@ -51,8 +93,10 @@ in
         popd
       '';
       format = "raw";
+      partitionTableType = "legacy";
       configFile = if isNull cfg.configFile then defaultConfigFile else cfg.configFile;
       inherit (cfg) diskSize;
+      inherit (cfg.rootPartition) fsType label;
       inherit config lib pkgs;
     };
 

@@ -12,7 +12,8 @@ in
 
 
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
+    device = "/dev/disk/by-label/${cfg.rootPartition.label}";
+    fsType = cfg.rootPartition.fsType;
     autoResize = true;
   };
 
