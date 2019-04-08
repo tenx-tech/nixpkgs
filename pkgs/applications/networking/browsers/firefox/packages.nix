@@ -4,16 +4,23 @@ let
 
   common = opts: callPackage (import ./common.nix opts) {};
 
+  # Needed on older branches since rustc: 1.32.0 -> 1.33.0
+  missing-documentation-patch = fetchurl {
+    name = "missing-documentation.patch";
+    url = "https://aur.archlinux.org/cgit/aur.git/plain/deny_missing_docs.patch"
+        + "?h=firefox-esr&id=03bdd01f9cf";
+    sha256 = "1i33n3fgwc8d0v7j4qn7lbdax0an6swar12gay3q2nwrhg3ic4fb";
+  };
 in
 
 rec {
 
   firefox = common rec {
     pname = "firefox";
-    ffversion = "66.0.1";
+    ffversion = "66.0.2";
     src = fetchurl {
       url = "mirror://mozilla/firefox/releases/${ffversion}/source/firefox-${ffversion}.source.tar.xz";
-      sha512 = "3nh42a9s8hzs3823mddqdcrhjb2nrphaz9v94mmp4xx4vra18mhsyddszk6xg5mx33wamvlalicws6l9h1d4i4dnnpchh2l6ch8m9kc";
+      sha512 = "1dzqzigrwb7q75zlyd74ncic3b39yvziccpgbzh7881lzshj7x6f2r6ssj8ssdkh8lm2ckhjzbn6pf44vlh8ciql9bxb8g8sjpg6ii2";
     };
 
     patches = [
@@ -74,6 +81,8 @@ rec {
       # this one is actually an omnipresent bug
       # https://bugzilla.mozilla.org/show_bug.cgi?id=1444519
       ./fix-pa-context-connect-retval.patch
+
+      missing-documentation-patch
     ];
 
     meta = firefox.meta // {
@@ -139,6 +148,7 @@ in rec {
 
     patches = [
       ./no-buildconfig.patch
+      missing-documentation-patch
     ];
   };
 
@@ -243,6 +253,10 @@ in rec {
       rev   = "dda14213c550afc522ef0bb0bb1643289c298736";
       sha256 = "0lj79nczcix9mx6d0isbizg0f8apf6vgkp7r0q7id92691frj7fz";
     };
+
+    patches = [
+      missing-documentation-patch
+    ];
   };
 
   tor-browser = tor-browser-8-0;

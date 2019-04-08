@@ -147,6 +147,11 @@
     github = "aepsil0n";
     name = "Eduard Bopp";
   };
+  aerialx = {
+    email = "aaron+nixos@aaronlindsay.com";
+    github = "AerialX";
+    name = "Aaron Lindsay";
+  };
   aespinosa = {
     email = "allan.espinosa@outlook.com";
     github = "aespinosa";
@@ -334,6 +339,11 @@
     email = "andrew@du.nham.ca";
     github = "andrew-d";
     name = "Andrew Dunham";
+  };
+  andrewchambers = {
+    email = "ac@acha.ninja";
+    github = "andrewchambers";
+    name = "Andrew Chambers";
   };
   andrewrk = {
     email = "superjoe30@gmail.com";
@@ -1208,6 +1218,11 @@
     email = "derek@gonyeo.com";
     github = "dgonyeo";
     name = "Derek Gonyeo";
+  };
+  dhkl = {
+    email = "david@davidslab.com";
+    github = "dhl";
+    name = "David Leung";
   };
   dipinhora = {
     email = "dipinhora+github@gmail.com";
@@ -2728,6 +2743,11 @@
     github = "lo1tuma";
     name = "Mathias Schreck";
   };
+  loewenheim = {
+    email = "loewenheim@mailbox.org";
+    github = "loewenheim";
+    name = "Sebastian Zivota";
+  };
   lopsided98 = {
     email = "benwolsieffer@gmail.com";
     github = "lopsided98";
@@ -2767,6 +2787,11 @@
     email = "luc.linux@mailoo.org";
     github = "lucas8";
     name = "Luc Chabassier";
+  };
+  lucus16 = {
+    email = "lars.jellema@gmail.com";
+    github = "Lucus16";
+    name = "Lars Jellema";
   };
   ludo = {
     email = "ludo@gnu.org";
@@ -3513,6 +3538,11 @@
     email = "owen@olynch.me";
     github = "olynch";
     name = "Owen Lynch";
+  };
+  omnipotententity = {
+    email = "omnipotententity@gmail.com";
+    github = "omnipotententity";
+    name = "Michael Reilly";
   };
   OPNA2608 = {
     email = "christoph.neidahl@gmail.com";
@@ -5395,5 +5425,10 @@
     email = "minijackson@riseup.net";
     github = "minijackson";
     name = "Rémi Nicole";
+  };
+  shazow = {
+    email = "andrey.petrov@shazow.net";
+    github = "shazow";
+    name = "Andrey Petrov";
   };
 }
