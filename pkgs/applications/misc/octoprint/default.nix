@@ -19,6 +19,9 @@ let
       (mkOverride "pylru"       "1.0.9"  "0b0pq0l7xv83dfsajsc49jcxzc99kb9jfx1a1dlx22hzcy962dvi")
       (mkOverride "sarge"       "0.1.4"  "08s8896973bz1gg0pkr592w6g4p6v47bkfvws5i91p9xf8b35yar")
       (mkOverride "tornado"     "4.5.3"  "02jzd23l4r6fswmwxaica9ldlyc2p6q8dk6dyff7j58fmdzf853d")
+
+      # https://github.com/NixOS/nixpkgs/pull/58179#issuecomment-478605134
+      (mkOverride "werkzeug"    "0.14.1" "c3fd7a7d41976d9f44db327260e263132466836cef6f91512889ed60ad26557c")
     ]);
   };
 
@@ -32,14 +35,17 @@ let
     "flask"
     "future"
     "futures"
+    "monotonic"
     "pkginfo"
     "psutil"
     "pyserial"
     "python-dateutil"
     "requests"
     "rsa"
+    "sarge"
     "scandir"
     "semantic_version"
+    "watchdog"
     "websocket-client"
     "werkzeug"
     "wrapt"
@@ -47,13 +53,13 @@ let
 
 in py.pkgs.buildPythonApplication rec {
   pname = "OctoPrint";
-  version = "1.3.9";
+  version = "1.3.10";
 
   src = fetchFromGitHub {
     owner  = "foosel";
     repo   = "OctoPrint";
     rev    = version;
-    sha256 = "1yqbsfmkx4wiykjrh66a05lhn15qhpc9ay67l37kv8bhdqf2xkj4";
+    sha256 = "1pvh7ay76zrvfzcsadh3sl48sgf3by9vpiaqlrkscsw02zirx9r7";
   };
 
   propagatedBuildInputs = with py.pkgs; [
@@ -75,7 +81,9 @@ in py.pkgs.buildPythonApplication rec {
       setup.py
   '';
 
-  checkPhase = "nosetests";
+  checkPhase = ''
+    HOME=$(mktemp -d) nosetests
+  '';
 
   meta = with stdenv.lib; {
     homepage = https://octoprint.org/;

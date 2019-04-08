@@ -3,7 +3,7 @@
 } :
 
 let
-  version = "22";
+  version = "23";
 
 in stdenv.mkDerivation {
   name = "rdma-core-${version}";
@@ -12,7 +12,7 @@ in stdenv.mkDerivation {
     owner = "linux-rdma";
     repo = "rdma-core";
     rev = "v${version}";
-    sha256 = "1xkd51bz6p85gahsw18knrvirn404ca98lqmp1assyn4irs7khx8";
+    sha256 = "1n0v075ndczwrc87b70vxhx42nv1p953cqycmgnz334790zg002g";
   };
 
   nativeBuildInputs = [ cmake pkgconfig pandoc ];

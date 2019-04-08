@@ -4,20 +4,22 @@
 
 stdenv.mkDerivation rec {
   name = "xmrig-${version}";
-  version = "2.10.0";
+  version = "2.14.1";
 
   src = fetchFromGitHub {
     owner = "xmrig";
     repo = "xmrig";
     rev = "v${version}";
-    sha256 = "10nqwxj8j2ciw2h178g2z5lrzv48xsi2a4v6s0ha93hfbjzvag5a";
+    sha256 = "0pc3ssmnn36xs3jgznx36q4z3qh06fkbz8md3p3rk6rpvly929pn";
   };
 
   nativeBuildInputs = [ cmake ];
   buildInputs = [ libuv libmicrohttpd openssl ];
 
   postPatch = ''
-    substituteInPlace src/donate.h --replace "kDonateLevel = 5;" "kDonateLevel = ${toString donateLevel};"
+    substituteInPlace src/donate.h \
+      --replace "kDefaultDonateLevel = 5;" "kDefaultDonateLevel = ${toString donateLevel};" \
+      --replace "kMinimumDonateLevel = 1;" "kMinimumDonateLevel = ${toString donateLevel};"
   '';
 
   installPhase = ''

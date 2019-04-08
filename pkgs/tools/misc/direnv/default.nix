@@ -2,14 +2,14 @@
 
 buildGoPackage rec {
   name = "direnv-${version}";
-  version = "2.19.0";
+  version = "2.20.0";
   goPackagePath = "github.com/direnv/direnv";
 
   src = fetchFromGitHub {
     owner = "direnv";
     repo = "direnv";
     rev = "v${version}";
-    sha256 = "0v5r07b5r0wmmf8wndi0z1fp979pyqg6xpx7w847bkyn4pvgpscm";
+    sha256 = "0ds8abwasymbsn9vak2105gczfgka4mz1i6kf1lvc3zm27v55cij";
   };
 
   postConfigure = ''

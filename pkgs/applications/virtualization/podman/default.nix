@@ -1,23 +1,26 @@
 { stdenv, fetchFromGitHub, pkgconfig
 , buildGoPackage, gpgme, lvm2, btrfs-progs, libseccomp
+, go-md2man
 }:
 
 buildGoPackage rec {
   name = "podman-${version}";
-  version = "1.0.0";
+  version = "1.2.0";
 
   src = fetchFromGitHub {
     owner = "containers";
     repo = "libpod";
     rev = "v${version}";
-    sha256 = "1py6vbmpm25j1gb51dn973pckvgjl9q63y9qyzszvc3q3wsxsqhw";
+    sha256 = "1nlll4q62w3i897wraj18pdi5cc91b8gmp360pzyqzzjdm9ag7v6";
   };
 
   goPackagePath = "github.com/containers/libpod";
 
+  outputs = [ "bin" "out" "man" ];
+
   # Optimizations break compilation of libseccomp c bindings
   hardeningDisable = [ "fortify" ];
-  nativeBuildInputs = [ pkgconfig ];
+  nativeBuildInputs = [ pkgconfig go-md2man ];
 
   buildInputs = [
     btrfs-progs libseccomp gpgme lvm2
@@ -26,11 +29,12 @@ buildGoPackage rec {
   buildPhase = ''
     pushd $NIX_BUILD_TOP/go/src/${goPackagePath}
     patchShebangs .
-    make binaries
+    make binaries docs
   '';
 
   installPhase = ''
     install -Dm555 bin/podman $bin/bin/podman
+    MANDIR=$man/share/man make install.man
   '';
 
   meta = with stdenv.lib; {

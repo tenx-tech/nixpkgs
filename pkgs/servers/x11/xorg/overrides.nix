@@ -1,7 +1,6 @@
 { abiCompat ? null,
   stdenv, makeWrapper, lib, fetchurl, fetchpatch, buildPackages,
-
-  automake, autoconf, libiconv, libtool, intltool, mtdev, libevdev, libinput,
+  automake, autoconf, gettext, libiconv, libtool, intltool, mtdev, libevdev, libinput,
   freetype, tradcpp, fontconfig, meson, ninja,
   libGL, spice-protocol, zlib, libGLU, dbus, libunwind, libdrm,
   mesa_noglu, udev, bootstrap_cmds, bison, flex, clangStdenv, autoreconfHook,
@@ -40,6 +39,10 @@ self: super:
 
   encodings = super.encodings.overrideAttrs (attrs: {
     buildInputs = attrs.buildInputs ++ [ self.mkfontscale ];
+  });
+
+  editres = super.editres.overrideAttrs (attrs: {
+    hardeningDisable = [ "format" ];
   });
 
   fontbhttf = super.fontbhttf.overrideAttrs (attrs: {
@@ -285,6 +288,10 @@ self: super:
     meta = attrs.meta // { platforms = stdenv.lib.platforms.linux; };
   });
 
+  oclock = super.oclock.overrideAttrs (attrs: {
+    buildInputs = attrs.buildInputs ++ [ self.libxkbfile ];
+  });
+
   setxkbmap = super.setxkbmap.overrideAttrs (attrs: {
     postInstall =
       ''
@@ -342,11 +349,6 @@ self: super:
   });
 
   xf86inputlibinput = super.xf86inputlibinput.overrideAttrs (attrs: rec {
-    name = "xf86-input-libinput-0.28.0";
-    src = fetchurl {
-      url = "mirror://xorg/individual/driver/${name}.tar.bz2";
-      sha256 = "189h8vl0005yizwrs4d0sng6j8lwkd3xi1zwqg8qavn2bw34v691";
-    };
     outputs = [ "out" "dev" ];
     buildInputs = attrs.buildInputs ++ [ libinput ];
     installFlags = "sdkdir=\${dev}/include/xorg";
@@ -432,6 +434,10 @@ self: super:
       ln -s share "$out/etc"
       mkdir -p "$out/lib" && ln -s ../share/pkgconfig "$out/lib/"
     '';
+  });
+
+  xload = super.xload.overrideAttrs (attrs: {
+    nativeBuildInputs = attrs.nativeBuildInputs ++ [ gettext ];
   });
 
   xlsfonts = super.xlsfonts.overrideAttrs (attrs: {
@@ -603,8 +609,16 @@ self: super:
       }));
 
   lndir = super.lndir.overrideAttrs (attrs: {
+    buildInputs = [];
     preConfigure = ''
+      export XPROTO_CFLAGS=" "
+      export XPROTO_LIBS=" "
       substituteInPlace lndir.c \
+        --replace '<X11/Xos.h>' '<string.h>' \
+        --replace '<X11/Xfuncproto.h>' '<unistd.h>' \
+        --replace '_X_ATTRIBUTE_PRINTF(1,2)' '__attribute__((__format__(__printf__,1,2)))' \
+        --replace '_X_ATTRIBUTE_PRINTF(2,3)' '__attribute__((__format__(__printf__,2,3)))' \
+        --replace '_X_NORETURN' '__attribute__((noreturn))' \
         --replace 'n_dirs--;' ""
     '';
   });

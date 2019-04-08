@@ -6,18 +6,18 @@
 
 buildPythonPackage rec {
   pname = "rasterio";
-  version = "1.0.15";
+  version = "1.0.22";
 
   # Pypi doesn't ship the tests, so we fetch directly from GitHub
   src = fetchFromGitHub {
     owner = "mapbox";
     repo = "rasterio";
     rev = version;
-    sha256 = "0waxkqdkaxxmqnkpj397niq193l2bg8s9isal4c7q12jbm6mf7f7";
+    sha256 = "1gx48qjiahlwflmjlkndp3ricd03jmzfx7i9ffgq7a2i6gcm36zp";
   };
 
   checkInputs = [ boto3 pytest pytestcov packaging hypothesis ];
-  buildInputs = [ cython ];
+  nativeBuildInputs = [ cython gdal ];
   propagatedBuildInputs = [ gdal numpy attrs affine cligj click-plugins snuggs ];
 
   meta = with lib; {
