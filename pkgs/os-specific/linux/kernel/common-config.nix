@@ -203,6 +203,7 @@ let
       SND_HDA_RECONFIG    = yes; # Support reconfiguration of jack functions
       # Support configuring jack functions via fw mechanism at boot
       SND_HDA_PATCH_LOADER = yes;
+      SND_OSSEMUL         = yes;
       SND_USB_CAIAQ_INPUT = yes;
       # Enable PSS mixer (Beethoven ADSP-16 and other compatible)
       PSS_MIXER           = whenOlder "4.12" yes;
@@ -239,7 +240,7 @@ let
       FANOTIFY        = yes;
       TMPFS           = yes;
       TMPFS_POSIX_ACL = yes;
-      FS_ENCRYPTION   = { optional = true; tristate = whenAtLeast "4.9" "m"; };
+      FS_ENCRYPTION   = if (versionAtLeast version "5.1") then yes else whenAtLeast "4.9" (option module);
 
       EXT2_FS_XATTR     = yes;
       EXT2_FS_POSIX_ACL = yes;
@@ -591,6 +592,8 @@ let
 
       BLK_DEV_INTEGRITY       = yes;
 
+      BLK_SED_OPAL = whenAtLeast "4.14" yes;
+
       BSD_PROCESS_ACCT_V3 = yes;
 
       BT_HCIUART_BCSP = option yes;
@@ -632,6 +635,8 @@ let
 
       MLX4_EN_VXLAN = whenOlder "4.8" yes;
       MLX5_CORE_EN       = option yes;
+
+      PSI = whenAtLeast "4.20" yes;
 
       MODVERSIONS        = whenOlder "4.9" yes;
       MOUSE_PS2_ELANTECH = yes; # Elantech PS/2 protocol extension
@@ -675,6 +680,9 @@ let
 
       HOTPLUG_PCI_ACPI = yes; # PCI hotplug using ACPI
       HOTPLUG_PCI_PCIE = yes; # PCI-Expresscard hotplug support
+
+      # Enable AMD's ROCm GPU compute stack
+      HSA_AMD = whenAtLeast "4.20" yes;
 
     } // optionalAttrs (stdenv.hostPlatform.system == "x86_64-linux" || stdenv.hostPlatform.system == "aarch64-linux") {
       # Enable memory hotplug support

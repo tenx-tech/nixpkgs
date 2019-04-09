@@ -5,23 +5,22 @@
 
 buildPythonPackage rec {
   pname = "altair";
-  version = "2.2.2";
+  version = "2.4.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "c158699026eb5a19f95c1ca742e2e82bc20c27013ef5785f10836283e2233f8a";
+    sha256 = "1lqln4510qqqla6s8z4ca0271qrhq6yyznsijsdn3nssvxsynqpc";
   };
+
+  postPatch = ''
+    # Tests require network
+    rm altair/examples/boxplot_max_min.py altair/examples/line_percent.py
+  '';
 
   checkInputs = [ pytest jinja2 sphinx vega_datasets ipython glibcLocales recommonmark ];
 
   propagatedBuildInputs = [ entrypoints jsonschema numpy pandas six toolz ]
     ++ stdenv.lib.optionals (pythonOlder "3.5") [ typing ];
-
-  # hack to prevent typing from being required for python > 3.5
-  postPatch = ''
-    substituteInPlace requirements.txt \
-       --replace "typing" ""
-  '';
 
   checkPhase = ''
     export LANG=en_US.UTF-8
@@ -33,6 +32,6 @@ buildPythonPackage rec {
     homepage = https://github.com/altair-viz/altair;
     license = licenses.bsd3;
     maintainers = with maintainers; [ teh ];
-    platforms = platforms.linux;
+    platforms = platforms.unix;
   };
 }

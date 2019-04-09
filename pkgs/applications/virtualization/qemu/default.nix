@@ -3,7 +3,7 @@
 , bison, lzo, snappy, libaio, gnutls, nettle, curl
 , makeWrapper
 , attr, libcap, libcap_ng
-, CoreServices, Cocoa, rez, setfile
+, CoreServices, Cocoa, Hypervisor, rez, setfile
 , numaSupport ? stdenv.isLinux && !stdenv.isAarch32, numactl
 , seccompSupport ? stdenv.isLinux, libseccomp
 , pulseSupport ? !stdenv.isDarwin, libpulseaudio
@@ -52,7 +52,7 @@ stdenv.mkDerivation rec {
       vde2 texinfo flex bison makeWrapper lzo snappy
       gnutls nettle curl
     ]
-    ++ optionals stdenv.isDarwin [ CoreServices Cocoa rez setfile ]
+    ++ optionals stdenv.isDarwin [ CoreServices Cocoa Hypervisor rez setfile ]
     ++ optionals seccompSupport [ libseccomp ]
     ++ optionals numaSupport [ numactl ]
     ++ optionals pulseSupport [ libpulseaudio ]
@@ -76,6 +76,12 @@ stdenv.mkDerivation rec {
   patches = [
     ./no-etc-install.patch
     ./fix-qemu-ga.patch
+    ./9p-ignore-noatime.patch
+    (fetchpatch {
+      name = "CVE-2019-3812.patch";
+      url = "https://git.qemu.org/?p=qemu.git;a=patch;h=b05b267840515730dbf6753495d5b7bd8b04ad1c";
+      sha256 = "03a5vc5wvirbyi5r8kb2r4m2w6f1zmh9bqsr2psh4pblwar0nf55";
+    })
   ] ++ optional nixosTestRunner ./force-uid0-on-9p.patch
     ++ optional pulseSupport ./fix-hda-recording.patch
     ++ optionals stdenv.hostPlatform.isMusl [
@@ -116,6 +122,7 @@ stdenv.mkDerivation rec {
     ++ optional usbredirSupport "--enable-usb-redir"
     ++ optional (hostCpuTargets != null) "--target-list=${stdenv.lib.concatStringsSep "," hostCpuTargets}"
     ++ optional stdenv.isDarwin "--enable-cocoa"
+    ++ optional stdenv.isDarwin "--enable-hvf"
     ++ optional stdenv.isLinux "--enable-linux-aio"
     ++ optional gtkSupport "--enable-gtk"
     ++ optional xenSupport "--enable-xen"

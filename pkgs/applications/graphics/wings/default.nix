@@ -1,10 +1,10 @@
-{ fetchurl, stdenv, erlang, cl, libGL, libGLU }:
+{ fetchurl, stdenv, erlang, cl, libGL, libGLU, runtimeShell }:
 
 stdenv.mkDerivation rec {
-  name = "wings-2.2.1";
+  name = "wings-2.2.3";
   src = fetchurl {
     url = "mirror://sourceforge/wings/${name}.tar.bz2";
-    sha256 = "1adlq3wd9bz0hjznpzsgilxgsbhr0kk01f06872mq37v4cbw76bh";
+    sha256 = "1b9xdmh0186xxs92i831vm9yq0il1hngi8bl9a1q7fs26wb8js1g";
   };
 
   ERL_LIBS = "${cl}/lib/erlang/lib";
@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
     cp ebin/* $out/lib/${name}/ebin
     cp -R textures shaders plugins $out/lib/$name
     cat << EOF > $out/bin/wings
-    #!/bin/sh
+    #!${runtimeShell}
     ${erlang}/bin/erl \
       -pa $out/lib/${name}/ebin -run wings_start start_halt "$@"
     EOF
@@ -43,4 +43,3 @@ stdenv.mkDerivation rec {
     platforms = with stdenv.lib.platforms; linux;
   };
 }
-

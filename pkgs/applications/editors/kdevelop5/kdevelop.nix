@@ -9,7 +9,7 @@
 
 let
   pname = "kdevelop";
-  version = "5.3.1";
+  version = "5.3.2";
   qtVersion = "5.${lib.versions.minor qtbase.version}";
 in
 mkDerivation rec {
@@ -17,7 +17,7 @@ mkDerivation rec {
 
   src = fetchurl {
     url = "mirror://kde/stable/${pname}/${version}/src/${name}.tar.xz";
-    sha256 = "1098ra7qpal6578hsv20kvxc63v47sp85wjhqr5rgzr2fm7jf6fr";
+    sha256 = "0akgdnvrab6mbwnmvgzsplk0qh83k1hnm5xc06yxr1s1a5sxbk08";
   };
 
   nativeBuildInputs = [
@@ -42,6 +42,13 @@ mkDerivation rec {
   cmakeFlags = [
     "-DCLANG_BUILTIN_DIR=${llvmPackages.clang-unwrapped}/lib/clang/${(builtins.parseDrvName llvmPackages.clang.name).version}/include"
   ];
+
+  postPatch = ''
+    # FIXME: temporary until https://invent.kde.org/kde/kdevelop/merge_requests/8 is merged
+    substituteInPlace kdevplatform/language/backgroundparser/parsejob.cpp --replace \
+      'if (internalFilePath.startsWith(dataPath.canonicalPath() + QStringLiteral("/kdev"))) {' \
+      'if (internalFilePath.startsWith(dataPath.canonicalPath() + QStringLiteral("/kdev")) || localFile.startsWith(path + QStringLiteral("/kdev"))) {'
+  '';
 
   postInstall = ''
     # The kdevelop! script (shell environment) needs qdbus and kioclient5 in PATH.

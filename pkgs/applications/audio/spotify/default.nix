@@ -1,20 +1,23 @@
 { fetchurl, stdenv, squashfsTools, xorg, alsaLib, makeWrapper, openssl, freetype
 , glib, pango, cairo, atk, gdk_pixbuf, gtk2, cups, nspr, nss, libpng
-, libgcrypt, systemd, fontconfig, dbus, expat, ffmpeg, curl, zlib, gnome3
+, libgcrypt, systemd, fontconfig, dbus, expat, ffmpeg_3, curl, zlib, gnome3
 , at-spi2-atk
 }:
 
 let
   # TO UPDATE: just execute the ./update.sh script (won't do anything if there is no update)
   # "rev" decides what is actually being downloaded
-  version = "1.0.96.181.gf6bc1b6b-12";
+  # If an update breaks things, one of those might have valuable info:
+  # https://aur.archlinux.org/packages/spotify/
+  # https://community.spotify.com/t5/Desktop-Linux
+  version = "1.1.0.237.g378f6f25-11";
   # To get the latest stable revision:
   # curl -H 'X-Ubuntu-Series: 16' 'https://api.snapcraft.io/api/v1/snaps/details/spotify?channel=stable' | jq '.download_url,.version,.last_updated'
   # To get general information:
   # curl -H 'Snap-Device-Series: 16' 'https://api.snapcraft.io/v2/snaps/info/spotify' | jq '.'
   # More examples of api usage:
   # https://github.com/canonical-websites/snapcraft.io/blob/master/webapp/publisher/snaps/views.py
-  rev = "30";
+  rev = "34";
 
 
   deps = [
@@ -26,7 +29,7 @@ let
     curl
     dbus
     expat
-    ffmpeg
+    ffmpeg_3
     fontconfig
     freetype
     gdk_pixbuf
@@ -68,7 +71,7 @@ stdenv.mkDerivation {
   # https://community.spotify.com/t5/Desktop-Linux/Redistribute-Spotify-on-Linux-Distributions/td-p/1695334
   src = fetchurl {
     url = "https://api.snapcraft.io/api/v1/snaps/download/pOBIoZ2LrCB3rDohMxoYGnbN14EHOgD7_${rev}.snap";
-    sha512 = "859730fbc80067f0828f7e13eee9a21b13b749f897a50e17c2da4ee672785cfd79e1af6336e609529d105e040dc40f61b6189524783ac93d49f991c4ea8b3c56";
+    sha512 = "beddfa8f5de9998e8d1dca32295d03bdf41ec2c23eca82fcf56e5bae7b8fb84c036627b02ea458623a72a01ba09ef83cc50acdd06f2810bd444aae450d4861e6";
   };
 
   buildInputs = [ squashfsTools makeWrapper ];
@@ -118,8 +121,8 @@ stdenv.mkDerivation {
       ln -s ${nspr.out}/lib/libnspr4.so $libdir/libnspr4.so
       ln -s ${nspr.out}/lib/libplc4.so $libdir/libplc4.so
 
-      ln -s ${ffmpeg.out}/lib/libavcodec.so.56 $libdir/libavcodec-ffmpeg.so.56
-      ln -s ${ffmpeg.out}/lib/libavformat.so.56 $libdir/libavformat-ffmpeg.so.56
+      ln -s ${ffmpeg_3.out}/lib/libavcodec.so* $libdir
+      ln -s ${ffmpeg_3.out}/lib/libavformat.so* $libdir
 
       rpath="$out/share/spotify:$libdir"
 
@@ -154,7 +157,7 @@ stdenv.mkDerivation {
     homepage = https://www.spotify.com/;
     description = "Play music from the Spotify music service";
     license = licenses.unfree;
-    maintainers = with maintainers; [ eelco ftrvxmtrx sheenobu mudri ];
+    maintainers = with maintainers; [ eelco ftrvxmtrx sheenobu mudri timokau ];
     platforms = [ "x86_64-linux" ];
   };
 }

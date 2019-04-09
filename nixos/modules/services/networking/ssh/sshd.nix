@@ -400,7 +400,10 @@ in
         sockets.sshd =
           { description = "SSH Socket";
             wantedBy = [ "sockets.target" ];
-            socketConfig.ListenStream = cfg.ports;
+            socketConfig.ListenStream = if cfg.listenAddresses != [] then
+              map (l: "${l.addr}:${toString (if l.port != null then l.port else 22)}") cfg.listenAddresses
+            else
+              cfg.ports;
             socketConfig.Accept = true;
           };
 
@@ -428,8 +431,6 @@ in
 
     services.openssh.extraConfig = mkOrder 0
       ''
-        Protocol 2
-
         UsePAM yes
 
         AddressFamily ${if config.networking.enableIPv6 then "any" else "inet"}
