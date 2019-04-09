@@ -1590,6 +1590,8 @@ in
 
   ipvsadm = callPackage ../os-specific/linux/ipvsadm { };
 
+  ir-standard-fonts = callPackage ../data/fonts/ir-standard-fonts { };
+
   lynis = callPackage ../tools/security/lynis { };
 
   mathics = pythonPackages.mathics;
@@ -5520,6 +5522,8 @@ in
   sha1collisiondetection = callPackage ../tools/security/sha1collisiondetection { };
 
   shadowsocks-libev = callPackage ../tools/networking/shadowsocks-libev { };
+
+  shabnam-fonts = callPackage ../data/fonts/shabnam-fonts { };
 
   shadowsocks-rust = callPackage ../tools/networking/shadowsocks-rust {
     inherit (darwin.apple_sdk.frameworks) Security;
@@ -14322,6 +14326,8 @@ in
 
   shairport-sync = callPackage ../servers/shairport-sync { };
 
+  showoff = callPackage ../servers/http/showoff {};
+
   serfdom = callPackage ../servers/serf { };
 
   seyren = callPackage ../servers/monitoring/seyren { };
@@ -15781,6 +15787,8 @@ in
     docbook_xsl_ns;
 
   documentation-highlighter = callPackage ../misc/documentation-highlighter { };
+
+  documize-community = callPackage ../servers/documize-community { };
 
   doulos-sil = callPackage ../data/fonts/doulos-sil { };
 
