@@ -1623,6 +1623,11 @@
     github = "FireyFly";
     name = "Jonas Höglund";
   };
+  flexw = {
+    email = "felix.weilbach@t-online.de";
+    github = "FlexW";
+    name = "Felix Weilbach";
+  };
   flokli = {
     email = "flokli@flokli.de";
     github = "flokli";
@@ -3451,6 +3456,11 @@
     github = "nocoolnametom";
     name = "Tom Doggett";
   };
+  nomeata = {
+    email = "mail@joachim-breitner.de";
+    github = "nomeata";
+    name = "Joachim Breitner";
+  };
   noneucat = {
     email = "andy@lolc.at";
     github = "noneucat";
@@ -4603,6 +4613,11 @@
     email = "samoss@gmail.com";
     github = "stumoss";
     name = "Stuart Moss";
+  };
+  suhr = {
+    email = "suhr@i2pmail.org";
+    github = "suhr";
+    name = "Сухарик";
   };
   SuprDewd = {
     email = "suprdewd@gmail.com";
