@@ -22188,6 +22188,8 @@ with pkgs;
 
   sct = callPackage ../tools/X11/sct {};
 
+  scylladb = callPackage ../servers/scylladb {};
+
   seafile-shared = callPackage ../misc/seafile-shared { };
 
   serviio = callPackage ../servers/serviio {};
