@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
   };
 
 
-  buildInputs = [ pythonPackages.pyparsing python3 pkgconfig gcc boost git systemd gnutls cmake ];
+  nativeBuildInputs = [ pythonPackages.pyparsing python3 pkgconfig gcc boost git systemd gnutls cmake ];
   installPhase = ''
     ./configure.py --mode=release
     #mkdir -p $out
