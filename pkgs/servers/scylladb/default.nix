@@ -1,4 +1,4 @@
-{ stdenv, fetchgit, makeWrapper, pythonPackages }:
+{ stdenv, fetchgit, pythonPackages, pkgconfig, gcc, boost, git }:
 stdenv.mkDerivation rec {
   name = "scylladb-${version}";
   version = "3.0.5";
@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
   };
 
 
-  buildInputs = [ pythonPackages.pyparsing ];
+  buildInputs = [ pythonPackages.pyparsing pkgconfig gcc boost git ];
   installPhase = ''
     ./configure.py --mode=release
     #mkdir -p $out
