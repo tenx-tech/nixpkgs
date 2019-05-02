@@ -11630,6 +11630,7 @@ in
   libamqpcpp = callPackage ../development/libraries/libamqpcpp { };
 
   libantlr3c = callPackage ../development/libraries/libantlr3c {};
+  libantlr3cpp = callPackage ../development/libraries/libantlr3cpp {};
 
   libaom = callPackage ../development/libraries/libaom { };
 
@@ -12446,6 +12447,8 @@ in
   };
 
   libsvm = callPackage ../development/libraries/libsvm { };
+
+  libsystemtap = callPackage ../development/libraries/libsystemtap { };
 
   libtar = callPackage ../development/libraries/libtar { };
 
