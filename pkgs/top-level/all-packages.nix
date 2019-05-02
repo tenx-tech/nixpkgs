@@ -10225,6 +10225,7 @@ with pkgs;
   libamqpcpp = callPackage ../development/libraries/libamqpcpp { };
 
   libantlr3c = callPackage ../development/libraries/libantlr3c {};
+  libantlr3cpp = callPackage ../development/libraries/libantlr3cpp {};
 
   libaom = callPackage ../development/libraries/libaom { };
 
@@ -11018,6 +11019,8 @@ with pkgs;
   };
 
   libsvm = callPackage ../development/libraries/libsvm { };
+
+  libsystemtap = callPackage ../development/libraries/libsystemtap { };
 
   libtar = callPackage ../development/libraries/libtar { };
 
@@ -12163,7 +12166,7 @@ with pkgs;
 
   };
 
-  skydive = callPackage ../tools/networking/skydive { };
+  skydive = callPackage ../tools/networkinckage3/skydive { };
 
   slang = callPackage ../development/libraries/slang { };
 
@@ -22187,6 +22190,8 @@ with pkgs;
   };
 
   sct = callPackage ../tools/X11/sct {};
+
+  scylladb = callPackage ../servers/scylladb {};
 
   seafile-shared = callPackage ../misc/seafile-shared { };
 
