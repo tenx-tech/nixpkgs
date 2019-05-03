@@ -10225,6 +10225,7 @@ with pkgs;
   libamqpcpp = callPackage ../development/libraries/libamqpcpp { };
 
   libantlr3c = callPackage ../development/libraries/libantlr3c {};
+  libantlr3cpp = callPackage ../development/libraries/libantlr3cpp {};
 
   libaom = callPackage ../development/libraries/libaom { };
 

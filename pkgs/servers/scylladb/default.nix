@@ -15,7 +15,9 @@
   hwloc,
   jsoncpp,
   thrift,
-  antlr3
+  libantlr3cpp,
+  antlr3,
+  numactl
 }:
 stdenv.mkDerivation rec {
   name = "scylladb-${version}";
@@ -28,13 +30,13 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ python3Packages.pyparsing python3 pkgconfig gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift antlr3 ];
+  nativeBuildInputs = [ python3Packages.pyparsing python3 pkgconfig gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift libantlr3cpp numactl antlr3 ];
 
   configurePhase = ''
     ./configure.py --mode=release
   '';
   buildPhase = ''
-    ninja
+    ninja -j "$NIX_BUILD_CORES" -v
   '';
   installPhase = ''
     echo "installing"
