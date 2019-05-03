@@ -27,7 +27,8 @@
   lz4,
   libxml2,
   zlib,
-  libpciaccess
+  libpciaccess,
+  snappy
 }:
 stdenv.mkDerivation rec {
   name = "scylladb-${version}";
@@ -40,13 +41,14 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ python3Packages.pyparsing pkgconfig python3 gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift libantlr3cpp numactl antlr3 protobuf cryptopp libxfs libyamlcpp libsystemtap lksctp-tools lz4 libxml2 zlib libpciaccess ];
+  nativeBuildInputs = [ python3Packages.pyparsing pkgconfig python3 gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift libantlr3cpp numactl antlr3 protobuf cryptopp libxfs libyamlcpp libsystemtap lksctp-tools lz4 libxml2 zlib libpciaccess snappy ];
 
   configurePhase = ''
     ./configure.py --mode=release
   '';
   buildPhase = ''
-    ninja -j "$NIX_BUILD_CORES" -v
+    #ninja -j "$NIX_BUILD_CORES" -v
+    ninja -j 2
   '';
   installPhase = ''
     echo "installing"
