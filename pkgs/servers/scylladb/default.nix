@@ -17,7 +17,12 @@
   thrift,
   libantlr3cpp,
   antlr3,
-  numactl
+  numactl,
+  protobuf,
+  cryptopp,
+  libxfs,
+  libyamlcpp,
+  linuxPackages
 }:
 stdenv.mkDerivation rec {
   name = "scylladb-${version}";
@@ -30,7 +35,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ python3Packages.pyparsing python3 pkgconfig gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift libantlr3cpp numactl antlr3 ];
+  nativeBuildInputs = [ python3Packages.pyparsing pkgconfig python3 gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift libantlr3cpp numactl antlr3 protobuf cryptopp libxfs libyamlcpp linuxPackages.systemtap ];
 
   configurePhase = ''
     ./configure.py --mode=release
