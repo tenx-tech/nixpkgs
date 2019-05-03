@@ -22,7 +22,8 @@
   cryptopp,
   libxfs,
   libyamlcpp,
-  libsystemtap
+  libsystemtap,
+  lksctp-tools
 }:
 stdenv.mkDerivation rec {
   name = "scylladb-${version}";
@@ -35,7 +36,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ python3Packages.pyparsing pkgconfig python3 gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift libantlr3cpp numactl antlr3 protobuf cryptopp libxfs libyamlcpp libsystemtap ];
+  nativeBuildInputs = [ python3Packages.pyparsing pkgconfig python3 gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift libantlr3cpp numactl antlr3 protobuf cryptopp libxfs libyamlcpp libsystemtap lksctp-tools ];
 
   configurePhase = ''
     ./configure.py --mode=release
