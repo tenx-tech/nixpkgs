@@ -11020,6 +11020,8 @@ with pkgs;
 
   libsvm = callPackage ../development/libraries/libsvm { };
 
+  libsystemtap = callPackage ../development/libraries/libsystemtap { };
+
   libtar = callPackage ../development/libraries/libtar { };
 
   libtasn1 = callPackage ../development/libraries/libtasn1 { };
