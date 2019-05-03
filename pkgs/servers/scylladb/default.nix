@@ -1,6 +1,6 @@
 { stdenv,
   fetchgit,
-  pythonPackages,
+  python3Packages,
   python3,
   pkgconfig,
   gcc,
@@ -13,7 +13,9 @@
   ninja,
   ragel,
   hwloc,
-  jsoncpp
+  jsoncpp,
+  thrift,
+  antlr3
 }:
 stdenv.mkDerivation rec {
   name = "scylladb-${version}";
@@ -26,21 +28,17 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ pythonPackages.pyparsing python3 pkgconfig gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp ];
+  nativeBuildInputs = [ python3Packages.pyparsing python3 pkgconfig gcc boost git systemd gnutls cmake makeWrapper ninja ragel hwloc jsoncpp thrift antlr3 ];
 
   configurePhase = ''
     ./configure.py --mode=release
   '';
   buildPhase = ''
-    echo "Hello World!"
+    ninja
   '';
-  #installPhase = ''
-    #export FOR_IDE="clion"
-    #echo $FOR_IDE
-    ##./configure.py --mode=release
-    ##mkdir -p $out
-    ##cp -R * $out
-  #'';
+  installPhase = ''
+    echo "installing"
+  '';
   meta = with stdenv.lib; {
     description = "NoSQL data store using the seastar framework, compatible with Apache Cassandra";
     homepage = http://scylladb.com;
