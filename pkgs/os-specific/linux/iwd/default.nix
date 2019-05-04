@@ -1,27 +1,24 @@
-{ stdenv, fetchgit, autoreconfHook, coreutils, readline, python3Packages }:
+{ stdenv, fetchgit, autoreconfHook, pkgconfig, ell, coreutils, readline, python3Packages }:
 
-let
-  ell = fetchgit {
-     url = https://git.kernel.org/pub/scm/libs/ell/ell.git;
-     rev = "0.11";
-     sha256 = "0nifa5w6fxy7cagyas2a0zhcppi83yrcsnnp70ls2rc90x4r1ip8";
-  };
-in stdenv.mkDerivation rec {
-  name = "iwd-${version}";
-  version = "0.9";
+stdenv.mkDerivation rec {
+  pname = "iwd";
+
+  version = "0.17";
 
   src = fetchgit {
     url = https://git.kernel.org/pub/scm/network/wireless/iwd.git;
     rev = version;
-    sha256 = "1l1jbwsshjbz32s4rf0zfcn3fd16si4y9qa0zaxp00bfzflnpcd4";
+    sha256 = "1bqkzl03qvzfq5hqd9nsfc98k0iyz864nzcrnbf3fr0n9wnzqffz";
   };
 
   nativeBuildInputs = [
     autoreconfHook
+    pkgconfig
     python3Packages.wrapPython
   ];
 
   buildInputs = [
+    ell
     readline
     python3Packages.python
   ];
@@ -31,17 +28,17 @@ in stdenv.mkDerivation rec {
     python3Packages.pygobject3
   ];
 
-  enableParallelBuilding = true;
-
   configureFlags = [
-    "--with-dbus-datadir=$(out)/etc/"
-    "--with-dbus-busdir=$(out)/usr/share/dbus-1/system-services/"
-    "--with-systemd-unitdir=$(out)/lib/systemd/system/"
+    "--with-dbus-datadir=${placeholder "out"}/etc/"
+    "--with-dbus-busdir=${placeholder "out"}/share/dbus-1/system-services/"
+    "--with-systemd-unitdir=${placeholder "out"}/lib/systemd/system/"
+    "--with-systemd-modloaddir=${placeholder "out"}/etc/modules-load.d/" # maybe
     "--localstatedir=/var/"
+    "--enable-wired"
+    "--enable-external-ell"
   ];
 
   postUnpack = ''
-    ln -s ${ell} ell
     patchShebangs .
   '';
 
@@ -57,7 +54,9 @@ in stdenv.mkDerivation rec {
   '';
 
   postFixup = ''
-    substituteInPlace $out/usr/share/dbus-1/system-services/net.connman.iwd.service \
+    substituteInPlace $out/share/dbus-1/system-services/net.connman.ead.service \
+                      --replace /bin/false ${coreutils}/bin/false
+    substituteInPlace $out/share/dbus-1/system-services/net.connman.iwd.service \
                       --replace /bin/false ${coreutils}/bin/false
   '';
 

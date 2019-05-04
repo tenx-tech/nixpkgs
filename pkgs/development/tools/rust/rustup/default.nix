@@ -1,25 +1,25 @@
 { stdenv, lib, runCommand, patchelf
 , fetchFromGitHub, rustPlatform
-, pkgconfig, curl, Security }:
+, pkgconfig, curl, Security, CoreServices }:
 
 rustPlatform.buildRustPackage rec {
-  name = "rustup-${version}";
-  version = "1.13.0";
+  pname = "rustup";
+  version = "1.18.2";
 
   src = fetchFromGitHub {
-    owner = "rust-lang-nursery";
+    owner = "rust-lang";
     repo = "rustup.rs";
     rev = version;
-    sha256 = "1h0786jx64nc9q8x6fv7a5sf1xijxhn02m2pq5v2grl9ks0vxidn";
+    sha256 = "0lyn06vzp5406sjng7msifigkal2lafppqjbdnigx8yvgxqgd06f";
   };
 
-  cargoSha256 = "09lbm2k189sri3vwcwzv7j07ah39c8ajbpkg0kzvjsjwr7ypli8a";
+  cargoSha256 = "0yxjy1kls80fcpwskklmihkqva16s6mawa8rdxc3zz8g588am03c";
 
   nativeBuildInputs = [ pkgconfig ];
 
   buildInputs = [
     curl
-  ] ++ stdenv.lib.optionals stdenv.isDarwin [ Security ];
+  ] ++ stdenv.lib.optionals stdenv.isDarwin [ CoreServices Security ];
 
   cargoBuildFlags = [ "--features no-self-update" ];
 
@@ -37,7 +37,11 @@ rustPlatform.buildRustPackage rec {
   postInstall = ''
     pushd $out/bin
     mv rustup-init rustup
-    for link in cargo rustc rustdoc rust-gdb rust-lldb rls rustfmt cargo-fmt cargo-clippy; do
+    binlinks=(
+      cargo rustc rustdoc rust-gdb rust-lldb rls rustfmt cargo-fmt
+      cargo-clippy clippy-driver cargo-miri
+    )
+    for link in ''${binlinks[@]}; do
       ln -s rustup $link
     done
     popd
@@ -45,9 +49,16 @@ rustPlatform.buildRustPackage rec {
     # tries to create .rustup
     export HOME=$(mktemp -d)
     mkdir -p "$out/share/"{bash-completion/completions,fish/vendor_completions.d,zsh/site-functions}
-    $out/bin/rustup completions bash > "$out/share/bash-completion/completions/rustup"
-    $out/bin/rustup completions fish > "$out/share/fish/vendor_completions.d/rustup.fish"
-    $out/bin/rustup completions zsh >  "$out/share/zsh/site-functions/_rustup"
+
+    # generate completion scripts for rustup
+    $out/bin/rustup completions bash rustup > "$out/share/bash-completion/completions/rustup"
+    $out/bin/rustup completions fish rustup > "$out/share/fish/vendor_completions.d/rustup.fish"
+    $out/bin/rustup completions zsh rustup >  "$out/share/zsh/site-functions/_rustup"
+
+    # generate completion scripts for cargo
+    # Note: fish completion script is not supported.
+    $out/bin/rustup completions bash cargo > "$out/share/bash-completion/completions/cargo"
+    $out/bin/rustup completions zsh cargo >  "$out/share/zsh/site-functions/_cargo"
   '';
 
   meta = with stdenv.lib; {

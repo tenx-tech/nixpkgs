@@ -1,13 +1,13 @@
 { stdenv, fetchFromGitHub, cmake, zlib, c-ares, pkgconfig, openssl, protobuf, gflags }:
 
 stdenv.mkDerivation rec {
-  version = "1.15.0";
+  version = "1.19.1";
   name = "grpc-${version}";
   src = fetchFromGitHub {
     owner = "grpc";
     repo = "grpc";
-    rev= "d2c7d4dea492b9a86a53555aabdbfa90c2b01730";
-    sha256 = "1dpnhc5kw7znivrnjx1gva57v6b548am4v5nvh3dkwwzsa1k6vkv";
+    rev = "v${version}";
+    sha256 = "0c0jra4qnd86gyr4rlblic3igb5dpgrldac35myk5i5ia547fdhj";
   };
   nativeBuildInputs = [ cmake pkgconfig ];
   buildInputs = [ zlib c-ares c-ares.cmake-config openssl protobuf gflags ];
@@ -18,6 +18,7 @@ stdenv.mkDerivation rec {
       "-DgRPC_SSL_PROVIDER=package"
       "-DgRPC_PROTOBUF_PROVIDER=package"
       "-DgRPC_GFLAGS_PROVIDER=package"
+      "-DBUILD_SHARED_LIBS=ON"
     ];
 
   # CMake creates a build directory by default, this conflicts with the
@@ -25,6 +26,12 @@ stdenv.mkDerivation rec {
   preConfigure = ''
     rm -vf BUILD
   '';
+
+  preBuild = ''
+    export LD_LIBRARY_PATH=$(pwd):$LD_LIBRARY_PATH
+  '';
+
+  NIX_CFLAGS_COMPILE = stdenv.lib.optionalString stdenv.cc.isClang "-Wno-error=unknown-warning-option";
 
   enableParallelBuilds = true;
 

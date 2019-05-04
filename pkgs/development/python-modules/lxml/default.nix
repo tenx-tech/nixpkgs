@@ -7,13 +7,14 @@
 
 buildPythonPackage rec {
   pname = "lxml";
-  version = "4.2.4";
+  version = "4.3.3";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "e2afbe403090f5893e254958d02875e0732975e73c4c0cdd33c1f009a61963ca";
+    sha256 = "4a03dd682f8e35a10234904e0b9508d705ff98cf962c5851ed052e9340df3d90";
   };
 
+  nativeBuildInputs = [ libxml2.dev libxslt.dev ];
   buildInputs = [ libxml2 libxslt ];
 
   hardeningDisable = stdenv.lib.optional stdenv.isDarwin "format";

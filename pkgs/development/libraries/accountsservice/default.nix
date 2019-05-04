@@ -1,19 +1,19 @@
 { stdenv, fetchurl, pkgconfig, glib, intltool, makeWrapper, shadow
-, gobjectIntrospection, polkit, systemd, coreutils, meson, dbus
+, gobject-introspection, polkit, systemd, coreutils, meson, dbus
 , ninja, python3 }:
 
 stdenv.mkDerivation rec {
   name = "accountsservice-${version}";
-  version = "0.6.54";
+  version = "0.6.55";
 
   src = fetchurl {
     url = "https://www.freedesktop.org/software/accountsservice/accountsservice-${version}.tar.xz";
-    sha256 = "1b115n0a4yfa06kgxc69qfc1rc0w4frgs3id3029czkrhhn0ds96";
+    sha256 = "16wwd633jak9ajyr1f1h047rmd09fhf3kzjz6g5xjsz0lwcj8azz";
   };
 
   nativeBuildInputs = [ pkgconfig makeWrapper meson ninja python3 ];
 
-  buildInputs = [ glib intltool gobjectIntrospection polkit systemd dbus ];
+  buildInputs = [ glib intltool gobject-introspection polkit systemd dbus ];
 
   mesonFlags = [ "-Dsystemdsystemunitdir=etc/systemd/system"
                  "-Dlocalstatedir=/var" ];

@@ -1,8 +1,8 @@
 { stdenv, lib, buildPackages, fetchFromGitHub, perl, buildLinux, ... } @ args:
 
 let
-  modDirVersion = "4.14.62";
-  tag = "1.20180817";
+  modDirVersion = "4.14.98";
+  tag = "1.20190215";
 in
 lib.overrideDerivation (buildLinux (args // rec {
   version = "${modDirVersion}-${tag}";
@@ -12,7 +12,7 @@ lib.overrideDerivation (buildLinux (args // rec {
     owner = "raspberrypi";
     repo = "linux";
     rev = "raspberrypi-kernel_${tag}-1";
-    sha256 = "17k7c9hcp834qmlpllag8jc6xhym9wkr5lck1vr0y2wlcxccwnaz";
+    sha256 = "1gc4x7p82m2v1jhahhyl7qfdkflj71ly6p0fpc1vf9sk13hbwgj2";
   };
 
   defconfig = {
@@ -25,7 +25,7 @@ lib.overrideDerivation (buildLinux (args // rec {
     efiBootStub = false;
   } // (args.features or {});
 
-  extraMeta.hydraPlatforms = [];
+  extraMeta.hydraPlatforms = [ "aarch64-linux" ];
 })) (oldAttrs: {
   postConfigure = ''
     # The v7 defconfig has this set to '-v7' which screws up our modDirVersion.

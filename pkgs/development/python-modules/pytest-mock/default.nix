@@ -2,15 +2,15 @@
 
 buildPythonPackage rec {
   pname = "pytest-mock";
-  version = "1.10.0";
- 
+  version = "1.10.3";
+
   src = fetchPypi {
     inherit pname version;
-    sha256 = "d89a8209d722b8307b5e351496830d5cc5e192336003a485443ae9adeb7dd4c0";
+    sha256 = "330bfa1a71c9b6e84e2976f01d70d8a174f755e7f9dc5b22f4b7335992e1e98b";
   };
 
-  propagatedBuildInputs = [ pytest ] ++ lib.optional (!isPy3k) mock;
-  nativeBuildInputs = [ setuptools_scm ];
+  propagatedBuildInputs = lib.optional (!isPy3k) mock;
+  nativeBuildInputs = [ setuptools_scm pytest ];
 
   checkPhase = ''
     py.test
