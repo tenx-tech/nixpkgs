@@ -43,6 +43,8 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
+  fixedCassandraThrift = haskell.lib.dontCheck (haskellPackages.cassandra-thrift);
+
   nativeBuildInputs = [
    python3Packages.pyparsing
    pkgconfig
@@ -58,7 +60,6 @@ stdenv.mkDerivation rec {
    ragel
    hwloc
    jsoncpp
-   haskellPackages.cassandra-thrift
    libantlr3cpp
    numactl
    antlr3
@@ -74,6 +75,7 @@ stdenv.mkDerivation rec {
    libpciaccess
    snappy
    libtool
+   fixedCassandraThrift
   ];
 
   configurePhase = ''
@@ -81,7 +83,7 @@ stdenv.mkDerivation rec {
   '';
   buildPhase = ''
     #ninja -j "$NIX_BUILD_CORES" -v
-    ninja -j 3
+    ninja -j 2
   '';
   installPhase = ''
     echo "installing"
