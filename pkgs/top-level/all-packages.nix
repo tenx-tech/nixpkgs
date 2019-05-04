@@ -12166,7 +12166,7 @@ with pkgs;
 
   };
 
-  skydive = callPackage ../tools/networking/skydive { };
+  skydive = callPackage ../tools/networkinckage3/skydive { };
 
   slang = callPackage ../development/libraries/slang { };
 
