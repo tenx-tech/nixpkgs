@@ -43,6 +43,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
+  # TODO: Learn to use https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/haskell.section.md#how-to-override-package-versions-in-a-compiler-specific-package-set to override hackage network version to http://hackage.haskell.org/package/network-2.5.0.0
   fixedCassandraThrift = haskell.lib.dontCheck (haskellPackages.cassandra-thrift);
 
   nativeBuildInputs = [
