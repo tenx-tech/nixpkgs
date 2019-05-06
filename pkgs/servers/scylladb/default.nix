@@ -14,8 +14,7 @@
   ragel,
   hwloc,
   jsoncpp,
-  haskell,
-  haskellPackages,
+  thrift,
   libantlr3cpp,
   antlr3,
   numactl,
@@ -43,8 +42,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  # TODO: Learn to use https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/haskell.section.md#how-to-override-package-versions-in-a-compiler-specific-package-set to override hackage network version to http://hackage.haskell.org/package/network-2.5.0.0
-  fixedCassandraThrift = haskell.lib.dontCheck (haskellPackages.cassandra-thrift);
+  patches = [ ./seastar-configure-script-paths.patch ];
 
   nativeBuildInputs = [
    python3Packages.pyparsing
@@ -76,15 +74,16 @@ stdenv.mkDerivation rec {
    libpciaccess
    snappy
    libtool
-   fixedCassandraThrift
+   thrift
   ];
 
   configurePhase = ''
+     patchShebangs ./configure.py
     ./configure.py --mode=release
   '';
   buildPhase = ''
-    #ninja -j "$NIX_BUILD_CORES" -v
-    ninja -j 2
+    echo "BUIDLING"
+    ninja -j "$NIX_BUILD_CORES" -v
   '';
   installPhase = ''
     echo "installing"
