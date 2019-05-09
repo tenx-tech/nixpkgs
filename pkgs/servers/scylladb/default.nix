@@ -3,7 +3,7 @@
   python3Packages,
   python3,
   pkgconfig,
-  gcc,
+  gcc8,
   boost,
   git,
   systemd,
@@ -14,7 +14,6 @@
   ragel,
   hwloc,
   jsoncpp,
-  thrift,
   libantlr3cpp,
   antlr3,
   numactl,
@@ -31,6 +30,14 @@
   snappy,
   libtool
 }:
+let
+  thriftNixpkgs = fetchgit {
+    name = "thrift-0.10";
+    url = https://github.com/nixos/nixpkgs/;
+    rev = "fbaa12bad90e3c8726a5427fdd981dc60c7f08ff";
+  };
+  thriftPkgs = import thriftNixpkgs {};
+in
 stdenv.mkDerivation rec {
   name = "scylladb-${version}";
   version = "3.0.5";
@@ -48,7 +55,7 @@ stdenv.mkDerivation rec {
    python3Packages.pyparsing
    pkgconfig
    python3
-   gcc
+   gcc8
    boost
    git
    systemd
@@ -74,7 +81,7 @@ stdenv.mkDerivation rec {
    libpciaccess
    snappy
    libtool
-   thrift
+   thriftPkgs.thrift
   ];
 
   configurePhase = ''
@@ -82,7 +89,6 @@ stdenv.mkDerivation rec {
     ./configure.py --mode=release
   '';
   buildPhase = ''
-    echo "BUIDLING"
     ninja -j "$NIX_BUILD_CORES" -v
   '';
   installPhase = ''
