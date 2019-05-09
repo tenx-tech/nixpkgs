@@ -31,7 +31,7 @@
   libtool
 }:
 let
-  thriftNixpkgs = fetchgit {
+  thriftNixpkgs = builtins.fetchGit {
     name = "thrift-0.10";
     url = https://github.com/nixos/nixpkgs/;
     rev = "fbaa12bad90e3c8726a5427fdd981dc60c7f08ff";
@@ -51,9 +51,10 @@ stdenv.mkDerivation rec {
 
   patches = [ ./seastar-configure-script-paths.patch ];
 
-  nativeBuildInputs = [
+  nativeBuildInputs = [ pkgconfig ];
+
+  buildInputs = [
    python3Packages.pyparsing
-   pkgconfig
    python3
    gcc8
    boost
