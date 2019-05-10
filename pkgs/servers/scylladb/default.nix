@@ -93,8 +93,8 @@ stdenv.mkDerivation rec {
     ninja -j "$NIX_BUILD_CORES" -v
   '';
   installPhase = ''
-    mkdir -p $out/bin
-    cp -r ./build/release/* $out/bin/
+    mkdir $out
+    cp -r * $out/
   '';
   meta = with stdenv.lib; {
     description = "NoSQL data store using the seastar framework, compatible with Apache Cassandra";
