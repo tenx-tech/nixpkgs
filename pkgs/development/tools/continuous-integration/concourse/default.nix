@@ -8,13 +8,13 @@
 
 let
 
-  version = "5.0.2-pre";
+  version = "5.2.0";
 
   src = fetchFromGitHub {
     repo = "concourse";
     owner = "concourse";
-    rev = "6c13d21d0efc407a12eb03196b1c3533e34e494d"; #"v${version}";
-    sha256 = "1rd2j7lffwgcbg0yi4vjb3z5xrfs9g36db4i719l9d973qkwfxx1";
+    rev = "v${version}";
+    sha256 = "026018x4s4ps4d33j19jhg66yv7fq6nn2c1x8x7d2ax7bd9yvski";
   };
 
   main-asset = callPackage ./assets/main {
@@ -32,7 +32,7 @@ let
       preBuild_ = preBuild;
     in
     buildGoPackage rec {
-      inherit name;
+      inherit name version;
       goPackagePath = "github.com/concourse/concourse";
       subPackages = packages;
       goDeps = ./deps.nix;
@@ -56,14 +56,14 @@ let
     };
 
   fly = buildConcourse {
-    name = "fly-unstable";
+    name = "fly-${version}";
     packages = [ "fly" ];
     platforms = stdenv.lib.platforms.linux ++ stdenv.lib.platforms.darwin;
   };
 in
 {
   concourse = buildConcourse {
-    name = "concourse-unstable";
+    name = "concourse-${version}";
     passthru = {
       inherit resources main-asset mkResourcesDir resourceDir;
     };
