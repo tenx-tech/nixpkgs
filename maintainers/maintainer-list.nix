@@ -1372,11 +1372,6 @@
     github = "dingxiangfei2009";
     name = "Ding Xiang Fei";
   };
-  dxf = {
-    email = "dingxiangfei2009@gmail.com";
-    github = "dingxiangfei2009";
-    name = "Ding Xiang Fei";
-  };
   dysinger = {
     email = "tim@dysinger.net";
     github = "dysinger";
