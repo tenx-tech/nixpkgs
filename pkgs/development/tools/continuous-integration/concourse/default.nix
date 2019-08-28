@@ -8,13 +8,13 @@
 
 let
 
-  version = "5.2.0";
+  version = "5.4.1";
 
   src = fetchFromGitHub {
     repo = "concourse";
     owner = "concourse";
     rev = "v${version}";
-    sha256 = "026018x4s4ps4d33j19jhg66yv7fq6nn2c1x8x7d2ax7bd9yvski";
+    sha256 = "0000000000000000000000000000000000000000000000000000";
   };
 
   main-asset = callPackage ./assets/main {
