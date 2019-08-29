@@ -14,7 +14,7 @@ let
     repo = "concourse";
     owner = "concourse";
     rev = "v${version}";
-    sha256 = "0000000000000000000000000000000000000000000000000000";
+    sha256 = "15lkhdvxqcryn5k7qflkby666ddj66gpqzga13yxjgjjp7zx2mi3";
   };
 
   main-asset = callPackage ./assets/main {
