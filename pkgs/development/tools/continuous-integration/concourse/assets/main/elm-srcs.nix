@@ -100,23 +100,28 @@
         version = "1.0.0";
       };
 
+      "elm-explorations/benchmark" = {
+        sha256 = "1nzmqkjrd3ci13k8g868bm28vz46lhsif2ahyqkdjjy9a1nay5yb";
+        version = "1.0.1";
+      };
+
       "elm/time" = {
         sha256 = "0vch7i86vn0x8b850w1p69vplll1bnbkp8s383z7pinyg94cm2z1";
         version = "1.0.0";
       };
 
-      "avh4/elm-fifo" = {
-        sha256 = "1ka0iz2psr75h4qz7hh5z1prclah1nais9aaycaxapfd7inqmrrc";
-        version = "1.0.4";
+      "mdgriffith/style-elements" = {
+        sha256 = "1pji9hf0whzhj2l511r6fkzl8klhhib2n431l9ihgms87phly7gq";
+        version = "5.0.1";
+      };
+
+      "BrianHicks/elm-trend" = {
+        sha256 = "0gg961nmc251yfn1s30z0dhp7zar2nvx36ynxjlnzrjfka7l453q";
+        version = "2.1.2";
       };
 
       "elm/regex" = {
         sha256 = "0lijsp50w7n1n57mjg6clpn9phly8vvs07h0qh2rqcs0f1jqvsa2";
-        version = "1.0.0";
-      };
-
-      "rtfeldman/elm-hex" = {
-        sha256 = "1y0aa16asvwdqmgbskh5iba6psp43lkcjjw9mgzj3gsrg33lp00d";
         version = "1.0.0";
       };
 

@@ -24,4 +24,11 @@ ${TMP_VG2N_DIR}/result-bin/bin/vgo2nix -keep-going
 
 # copy results and clean up
 cp deps.nix ${NIX_CONCOURSE_PKG_DIR}/deps.nix
+
+# generate the updated elm deps and copy over
+cd $TMP_CONCOURSE_DIR/web/elm
+nix-shell -p elm2nix --command 'elm2nix convert > elm-srcs.nix && elm2nix snapshot'
+cp $TMP_CONCOURSE_DIR/web/elm/versions.dat ${NIX_CONCOURSE_PKG_DIR}/assets/main/versions.dat
+cp $TMP_CONCOURSE_DIR/web/elm/elm-srcs.nix ${NIX_CONCOURSE_PKG_DIR}/assets/main/elm-srcs.nix
+
 rm -rf $TMP_DIR
