@@ -1,5 +1,6 @@
 {
   callPackage,
+  iana-etc,
   elmPackages,
   lib,
   nodePackages,
@@ -19,7 +20,7 @@ let
     stdenv.mkDerivation {
       inherit name src;
 
-      buildInputs = [ elmPackages.elm ];
+      buildInputs = [ elmPackages.elm iana-etc ];
 
       buildPhase = elmPackages.fetchElmDeps {
         elmPackages = import srcs;
