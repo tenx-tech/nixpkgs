@@ -12,6 +12,7 @@ NIX_CONCOURSE_PKG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 
 
 # load custom commit of vgo2nix, build it
 TMP_DIR=`mktemp -d`
+trap "rm -rf $TMP_DIR" EXIT TERM KILL
 TMP_VG2N_DIR=${TMP_DIR}/vgo2nix
 git clone git@github.com:adisbladis/vgo2nix.git --depth 1 $TMP_VG2N_DIR
 cd $TMP_VG2N_DIR
@@ -35,5 +36,3 @@ cd $TMP_CONCOURSE_DIR/web/elm
 nix-shell -p elm2nix --command 'elm2nix convert > elm-srcs.nix && elm2nix snapshot'
 cp $TMP_CONCOURSE_DIR/web/elm/versions.dat ${NIX_CONCOURSE_PKG_DIR}/assets/main/versions.dat
 cp $TMP_CONCOURSE_DIR/web/elm/elm-srcs.nix ${NIX_CONCOURSE_PKG_DIR}/assets/main/elm-srcs.nix
-
-rm -rf $TMP_DIR
