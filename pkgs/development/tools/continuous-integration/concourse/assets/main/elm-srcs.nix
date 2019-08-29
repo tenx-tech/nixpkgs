@@ -139,4 +139,25 @@
         sha256 = "1n4zhm00m37fgy4vb6cayplm4yz6k78ijbmqajrqfnbsyc26p8wr";
         version = "1.1.2";
       };
+
+      # packages below this point are manually added.  See ERRATA.md
+      "avh4/elm-fifo" = {
+        sha256 = "1ka0iz2psr75h4qz7hh5z1prclah1nais9aaycaxapfd7inqmrrc";
+        version = "1.0.4";
+      };
+
+      "elm/random" = {
+        sha256 = "138n2455wdjwa657w6sjq18wx2r0k60ibpc4frhbqr50sncxrfdl";
+        version = "1.0.0";
+      };
+
+      "elm-explorations/test" = {
+        sha256 = "1sdzz36x0n9lnq5xygc1w3x5s9z10kcmic7d76wk0dk67p5w0cqj";
+        version = "1.2.1";
+      };
+
+      "rtfeldman/elm-hex" = {
+        sha256 = "1y0aa16asvwdqmgbskh5iba6psp43lkcjjw9mgzj3gsrg33lp00d";
+        version = "1.0.0";
+      };
 }
