@@ -2,6 +2,11 @@
 
 set -e
 
+printf "1. This script will clobber the current elm-srcs.nix and omit some packages necessary for building Concourse successfully.  You must manually add these back in or neglect to include their deletion when drafting your commits.\n"
+printf "2. The script also hangs at the end.  Pressing any key will resume normally.\n\n"
+printf "Have you read these warnings?\n\n"
+read -n 1 -s -r -p "Press any key to continue"
+
 # remember current directory
 NIX_CONCOURSE_PKG_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
