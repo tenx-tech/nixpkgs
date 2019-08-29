@@ -15,7 +15,7 @@ nix-build
 
 TMP_CONCOURSE_DIR=${TMP_DIR}/concourse
 git clone --branch  v5.4.1 git@github.com:concourse/concourse.git --depth 1 $TMP_CONCOURSE_DIR
-cd $TMP_CONCOURSE_DIR
+
 
 # hop back and build our new deps
 cd $TMP_CONCOURSE_DIR
