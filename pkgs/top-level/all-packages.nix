@@ -8381,6 +8381,8 @@ in
 
   carnix = (callPackage ../build-support/rust/carnix.nix { }).carnix { };
 
+  cargo2nix = callPackage ../build-support/rust/cargo2nix {};
+
   defaultCrateOverrides = callPackage ../build-support/rust/default-crate-overrides.nix { };
 
   cargo-audit = callPackage ../tools/package-management/cargo-audit {
